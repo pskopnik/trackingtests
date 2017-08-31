@@ -22,7 +22,7 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 	NetworKit::DynamicCommunitiesGenerator gen(parameters);
 	NetworKit::GeneratorState state(gen);
 
-	NetworKit::DCGAggregation aggregator(gen);
+	NetworKit::GomoryHuAggregation aggregator = NetworKit::GomoryHuAggregation::from(gen);
 
 	for (unsigned int i = 0; i < timesteps * d_timesteps; ++i) {
 		NetworKit::Partition p = gen.next();
