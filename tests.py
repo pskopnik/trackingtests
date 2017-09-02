@@ -23,6 +23,14 @@ def build_gomoryhu_aggregation(b):
 
 	b.artefact(executable=m.result)
 
+@build()
+def build_correspondences_aggregation(b):
+	s = b.source(GitRepo(repo_url))
+
+	m = b.builder(Make(join(s.local_path(), "correspondences_aggregation"), creates="test"))
+
+	b.artefact(executable=m.result)
+
 @job(depends=build_gomoryhu_aggregation)
 def gomoryhu_aggregation(j):
 	j.generator(
@@ -64,6 +72,61 @@ def gomoryhu_aggregation(j):
 				"_k", P("k"),
 				"_c", P("hhc"),
 				"_l", Function(lambda p: p["k"] // p["k_over_l"]),
+				"_n", P("n"),
+				"_av", P("alpha_v"),
+				"_t", P("timesteps"),
+				"_d", P("d_timesteps"),
+				".out"
+			),
+		)
+	))
+
+	j.artefact(result=coll.aggregate)
+
+	j.after(lambda j: print("Wrote results to", list(map(lambda f: f.name, j.artefacts["result"]))))
+	j.after(lambda j: list(map(lambda f: f.close(), j.artefacts["result"])))
+
+@job(depends=build_correspondences_aggregation)
+def correspondences_aggregation(j):
+	j.generator(
+		Product(
+			k_over_l=[3, 10, 20, 40],
+			hhc=[0.4, 0.2, 0.1, 0.01],
+			l=[10, 20, 40, 50, 80, 120],
+			n=[10000],
+			alpha_v=[0.7, 0.8, 0.9, 0.95, 0.99],
+			timesteps=[100, 1000, 10000],
+			d_timesteps=[300]
+		)
+	)
+
+	j.processor(Threading(
+		config.User.get("cpu_count", os.cpu_count())
+	))
+
+	j.runner(SubprocessRunner.factory(
+		j.dependencies[build_correspondences_aggregation].artefacts["executable"],
+		input=ProcessArgs(
+			Function(lambda p: p["k_over_l"] * p["l"]),
+			P("hhc"),
+			P("l"),
+			P("n"),
+			P("alpha_v"),
+			P("timesteps"),
+			P("d_timesteps")
+		),
+		output=Stdout(),
+	))
+
+	coll = j.collector(Demux(
+		["k", "hhc", "k_over_l", "n", "alpha_v", "timesteps", "d_timesteps"],
+		Factory(
+			Concatenate,
+			file_path=Join(
+				"correspondences_aggregation",
+				"_k", Function(lambda p: p["k_over_l"] * p["l"]),
+				"_c", P("hhc"),
+				"_l", P("l"),
 				"_n", P("n"),
 				"_av", P("alpha_v"),
 				"_t", P("timesteps"),
