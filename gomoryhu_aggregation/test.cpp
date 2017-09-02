@@ -29,7 +29,6 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 		if (i % d_timesteps == 0)
 			aggregator.add(p);
 	}
-	std::cerr << std::endl;
 
 	auto mOut = aggregator.getM();
 	for (unsigned int i = 1; i <= mOut.getN(); ++i) {

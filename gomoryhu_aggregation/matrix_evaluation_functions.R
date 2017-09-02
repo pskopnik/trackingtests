@@ -32,9 +32,7 @@ processFile = function (spec, prefix="matrix_", postfix=".out") {
 	print(optimal.t.misfits / d.melt[,.N])
 	readline(prompt="Press [enter] to continue")
 
-	half.value = calculateHalfValue(d.melt)
-
-	drawDensity(d.melt, optimal.t, half.value)
+	drawDensity(d.melt, optimal.t)
 	readline(prompt="Press [enter] to continue")
 
 	drawFiltered(d.melt, optimal.t)
@@ -50,35 +48,20 @@ drawFiltered = function (d.melt, threshold, main = "Heatmap") {
 }
 
 
-drawDensity = function (d.melt, optimal.t, half.value) {
+drawDensity = function (d.melt, optimal.t) {
 	d.summary = summary(d.melt[,value])
-	plot(density(d.melt[value > d.summary["1st Qu."] & value < d.summary["3rd Qu."],value]), main="Aggregation Matrix Value Density from 1st to 3rd Quartile")
+	# plot(density(d.melt[value > d.summary["1st Qu."] & value < d.summary["3rd Qu."],value]), main="Aggregation Matrix Value Density from 1st to 3rd Quartile")
+	plot(density(d.melt[,value]), main="Aggregation Matrix Value Density")
 	abline(v=optimal.t, col="green")
 	abline(v=d.summary["Mean"], col="red")
 	abline(v=d.summary["Median"], col="black")
-	abline(v=half.value, col="darkorchid")
+	#abline(v=half.value, col="darkorchid")
 
 	legend("topright",
 			inset=0.05,
-			c("mean", "median", "half value", "optimal"),
-			col=c('red', 'black', 'darkorchid', "green"),
+			c("mean", "median", "optimal"),
+			col=c('red', 'black', "green"),
 			lty=c(1, 1, 1, 1))
-}
-
-calculateHalfValue = function (d.melt) {
-	d.melt.sorted = d.melt[order(value)]
-	d.value.sum = d.melt[, sum(as.numeric(value))]
-	half.sum = d.value.sum / 2
-	running.sum = 0L
-	for (i in 1:nrow(d.melt)) {
-		running.sum = running.sum + d.melt.sorted[i,value]
-		if (running.sum >= half.sum ) {
-			half.value = d.melt.sorted[i,value]
-			break
-		}
-	}
-
-	return(half.value)
 }
 
 calculateOptimalT = function (d.melt) {
@@ -245,7 +228,7 @@ drawRelativeMisfitCorrelatedToHHC = function (d) {
 		points(relativeMisfit ~ hhc, data=d.filtered[alpha_v == alpha_v.values[i]][order(hhc)], t="o", col=colors[i])
 	}
 
-	legend("bottomleft",
+	legend("bottomright",
 			inset=0.05,
 			title="alpha_v",
 			legend=alpha_v.values,

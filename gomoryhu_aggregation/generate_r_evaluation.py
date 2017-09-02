@@ -1,5 +1,7 @@
+import argparse
 import os
 import re
+import shutil
 
 
 class OutputFile(object):
@@ -73,10 +75,11 @@ def parse(dir, recursive=False):
 		if output_file is not None:
 			yield output_file
 
-def write_reader(output_files, writer):
+def write_data_table(output_files, writer, data_table_import=True):
 	l = list(output_files)
 
-	writer.write("library(data.table)\n")
+	if data_table_import:
+		writer.write("library(data.table)\n")
 
 	writer.write("d = data.table(")
 
@@ -86,12 +89,43 @@ def write_reader(output_files, writer):
 		writer.write("),")
 
 	writer.write("relativeMisfit=c(")
-	writer.write(",".join('relativeMisfit("{}", prefix="{}", postfix="{}")'.format(i.spec, i.prefix, i.postfix) for i in l))
+	writer.write(
+		",".join(
+			'relativeMisfit("{}", prefix="{}", postfix="{}")'
+				.format(i.spec, i.prefix, i.postfix) for i in l
+		)
+	)
 	writer.write(")")
 	writer.write(")")
+	writer.write("\n")
 
-def main():
-	pass
+def main(dir, output, preamble=None, data_file=None):
+	with open(output, "w") as f:
+
+		if preamble is not None:
+			with open(preamble) as p:
+				shutil.copyfileobj(p, f)
+
+			f.write("\n")
+
+		write_data_table(parse(dir), f)
+
+		if data_file is not None:
+			f.write("\n")
+
+			f.write('fwrite(d, "{}", sep=" ")\n'.format(data_file))
+
+parser = argparse.ArgumentParser(description='Generates a R evaluation script.')
+parser.add_argument('dir', help='The input directory')
+parser.add_argument('output', nargs='?', default="evaluate.tmp.R",
+	help='The path the script is written to (default: evaluate.tmp.R)')
+parser.add_argument('-p', '--preamble', nargs='?',
+	help='Path to a preamble file, inserted before the data.table')
+parser.add_argument('-d', '--data-file', nargs='?', dest="data_file",
+	help='Path to a data file the data.table is written to')
+
 
 if __name__ == '__main__':
-	main()
+	args = parser.parse_args()
+
+	main(args.dir, args.output, preamble=args.preamble, data_file=args.data_file)

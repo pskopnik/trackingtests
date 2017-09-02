@@ -1,99 +1,103 @@
-	d.filtered = d[k == 240 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
+library(data.table)
 
-	l.values = d.filtered[order(l),l,l][,l]
+d = fread("data.tsv")
 
-	colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
-	# colors = rev(topo.colors(length(l.values)))
+d.filtered = d[k == 240 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
 
-	plot(
-	c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
-	c(0, d.filtered[,max(relativeMisfit)]),
-	t="n",
-	ylab="Relative Misfit",
-	xlab="alpha_v",
-	main="Relative Misfit",
-	sub="k=240, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
-	)
+l.values = d.filtered[order(l),l,l][,l]
 
-	for (i in 1:length(l.values)) {
-		points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
-	}
+colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
+# colors = rev(topo.colors(length(l.values)))
 
-	legend("bottomleft",
-			inset=0.05,
-			title="l",
-			legend=l.values,
-			col=colors,
-			pch=rep(3, length(l.values)))
+plot(
+c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
+c(0, d.filtered[,max(relativeMisfit)]),
+t="n",
+ylab="Relative Misfit",
+xlab="alpha_v",
+main="Relative Misfit",
+sub="k=240, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
+)
 
-	# dev.copy(pdf, "relative_misfit_by_l_k60.pdf", width=10)
-	# dev.off()
+for (i in 1:length(l.values)) {
+	points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
+}
 
+legend("bottomleft",
+		inset=0.05,
+		title="l",
+		legend=l.values,
+		col=colors,
+		pch=rep(3, length(l.values)))
 
-
-	d.filtered = d[k == 120 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
-
-	l.values = d.filtered[order(l),l,l][,l]
-
-	colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
-	# colors = rev(topo.colors(length(l.values)))
-
-	plot(
-	c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
-	c(0, d.filtered[,max(relativeMisfit)]),
-	t="n",
-	ylab="Relative Misfit",
-	xlab="alpha_v",
-	main="Relative Misfit",
-	sub="k=120, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
-	)
-
-	for (i in 1:length(l.values)) {
-		points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
-	}
-
-	legend("bottomleft",
-			inset=0.05,
-			title="l",
-			legend=l.values,
-			col=colors,
-			pch=rep(3, length(l.values)))
-
-	# dev.copy(pdf, "relative_misfit_by_l_k60.pdf", width=10)
-	# dev.off()
+# dev.copy(pdf, "relative_misfit_by_l_k240.pdf", width=10)
+# dev.off()
 
 
 
-	d.filtered = d[k == 60 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
+d.filtered = d[k == 120 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
 
-	l.values = d.filtered[order(l),l,l][,l]
+l.values = d.filtered[order(l),l,l][,l]
 
-	colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
-	# colors = rev(topo.colors(length(l.values)))
+colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
+# colors = rev(topo.colors(length(l.values)))
 
-	plot(
-	c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
-	c(0, d.filtered[,max(relativeMisfit)]),
-	t="n",
-	ylab="Relative Misfit",
-	xlab="alpha_v",
-	main="Relative Misfit",
-	sub="k=60, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
-	)
+plot(
+c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
+c(0, d.filtered[,max(relativeMisfit)]),
+t="n",
+ylab="Relative Misfit",
+xlab="alpha_v",
+main="Relative Misfit",
+sub="k=120, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
+)
 
-	for (i in 1:length(l.values)) {
-		points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
-	}
+for (i in 1:length(l.values)) {
+	points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
+}
 
-	legend("bottomleft",
-			inset=0.05,
-			title="l",
-			legend=l.values,
-			col=colors,
-			pch=rep(3, length(l.values)))
+legend("bottomleft",
+		inset=0.05,
+		title="l",
+		legend=l.values,
+		col=colors,
+		pch=rep(3, length(l.values)))
 
-	# dev.copy(pdf, "relative_misfit_by_l_k60.pdf", width=10)
-	# dev.off()
+# dev.copy(pdf, "relative_misfit_by_l_k120.pdf", width=10)
+# dev.off()
+
+
+
+d.filtered = d[k == 60 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
+
+l.values = d.filtered[order(l),l,l][,l]
+
+colors = rev(heat.colors(length(l.values) + 1)[1:length(l.values)])
+# colors = rev(topo.colors(length(l.values)))
+
+plot(
+c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
+c(0, d.filtered[,max(relativeMisfit)]),
+t="n",
+ylab="Relative Misfit",
+xlab="alpha_v",
+main="Relative Misfit",
+sub="k=60, hhc=0.01, l=?, n=10000, timesteps=100, d_timesteps=600"
+)
+
+for (i in 1:length(l.values)) {
+	points(relativeMisfit ~ alpha_v, data=d.filtered[l == l.values[i]][order(alpha_v)], t="o", col=colors[i], pch=3)
+}
+
+legend("bottomleft",
+		inset=0.05,
+		title="l",
+		legend=l.values,
+		col=colors,
+		pch=rep(3, length(l.values)))
+
+# dev.copy(pdf, "relative_misfit_by_l_k60.pdf", width=10)
+# dev.off()
 
 
 # Evaluate for fixed k/l
@@ -129,3 +133,68 @@
 # # dev.copy(pdf, "relative_misfit_by_.pdf", width=10)
 # # dev.off()
 
+
+
+d.filtered = d[l == 6 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
+
+k.values = d.filtered[order(k),k,k][,k]
+
+colors = rev(heat.colors(length(k.values) + 1)[1:length(k.values)])
+# colors = rev(topo.colors(length(k.values)))
+
+plot(
+c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
+c(0, d.filtered[,max(relativeMisfit)]),
+t="n",
+ylab="Relative Misfit",
+xlab="alpha_v",
+main="Relative Misfit",
+sub="k=?, hhc=0.01, l=6, n=10000, timesteps=100, d_timesteps=600"
+)
+
+for (i in 1:length(k.values)) {
+	points(relativeMisfit ~ alpha_v, data=d.filtered[k == k.values[i]][order(alpha_v)], t="o", col=colors[i], pch=1)
+}
+
+legend("bottomleft",
+		inset=0.05,
+		title="k",
+		legend=k.values,
+		col=colors,
+		pch=rep(1, length(k.values)))
+
+dev.copy(pdf, "relative_misfit_by_k_l6.pdf", width=10)
+dev.off()
+
+
+
+d.filtered = d[l == 12 & hhc == 0.01 & timesteps == 100 & d_timesteps == 600]
+
+k.values = d.filtered[order(k),k,k][,k]
+
+colors = rev(heat.colors(length(k.values) + 1)[1:length(k.values)])
+# colors = rev(topo.colors(length(k.values)))
+
+plot(
+c(d.filtered[,min(alpha_v)], d.filtered[,max(alpha_v)]),
+c(0, d.filtered[,max(relativeMisfit)]),
+t="n",
+ylab="Relative Misfit",
+xlab="alpha_v",
+main="Relative Misfit",
+sub="k=?, hhc=0.01, l=6, n=10000, timesteps=100, d_timesteps=600"
+)
+
+for (i in 1:length(k.values)) {
+	points(relativeMisfit ~ alpha_v, data=d.filtered[k == k.values[i]][order(alpha_v)], t="o", col=colors[i], pch=1)
+}
+
+legend("bottomleft",
+		inset=0.05,
+		title="k",
+		legend=k.values,
+		col=colors,
+		pch=rep(1, length(k.values)))
+
+dev.copy(pdf, "relative_misfit_by_k_l12.pdf", width=10)
+dev.off()
