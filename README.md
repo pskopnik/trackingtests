@@ -4,5 +4,4 @@ Repository containing tests and evaluation source code for different NetworKit T
 
 ## bjec
 
-A [bjec](http://http://bjec.readthedocs.io/) file is available: `tests.py` in the top level
-directory.
+A [bjec](http://bjec.readthedocs.io/) file is available: `tests.py` in the top level directory.
