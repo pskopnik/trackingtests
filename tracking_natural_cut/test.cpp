@@ -34,33 +34,33 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 
 	NetworKit::StepByStep<
 		NetworKit::DCGTimestepData,
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::CheapestMutual
 		>,
 		NetworKit::OwnershipDotOutput<NetworKit::DCGTimestepData>
 	> tCheapestMutual(
 		NetworKit::DCGTimestepData(parts),
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::CheapestMutual
 		>(gen, parts)
 	);
 
 	NetworKit::StepByStep<
 		NetworKit::DCGTimestepData,
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::RecursiveMutual
 		>,
 		NetworKit::OwnershipDotOutput<NetworKit::DCGTimestepData>
 	> tRecursiveMutual(
 		NetworKit::DCGTimestepData(parts),
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::RecursiveMutual
 		>(gen, parts)
 	);
 
 	NetworKit::StepByStep<
 		NetworKit::DCGTimestepData,
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::TopDown<
 				NetworKit::IndividualOptimumWeakenedZero
 			>
@@ -68,7 +68,7 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 		NetworKit::OwnershipDotOutput<NetworKit::DCGTimestepData>
 	> tTopDownIndividualOptimumWeakenedZero(
 		NetworKit::DCGTimestepData(parts),
-		NetworKit::DCGHierarchicalTree<
+		NetworKit::DCGResultsWrapper<
 			NetworKit::TopDown<NetworKit::IndividualOptimumWeakenedZero>
 		>(gen, parts)
 	);
