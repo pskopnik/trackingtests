@@ -37,10 +37,7 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 	auto mOut = aggregator.getM();
 	for (unsigned int i = 1; i <= mOut.getN(); ++i) {
 		for (unsigned int j = 1; j <= mOut.getN(); ++j) {
-			if (i == j)
-				std::cout << 0 << " ";
-			else
-				std::cout << mOut.get(i, j) << " ";
+			std::cout << mOut.get(i, j) << " ";
 		}
 		std::cout << std::endl;
 	}
