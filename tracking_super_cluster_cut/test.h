@@ -1,5 +1,5 @@
-#ifndef TRACKING_NATURAL_CUT_H_
-#define TRACKING_NATURAL_CUT_H_
+#ifndef TRACKING_SUPER_CLUSTER_CUT_H_
+#define TRACKING_SUPER_CLUSTER_CUT_H_
 
 /**
  * Evaluates the natural edge cut from different correspondences exploration algorithms.
@@ -33,4 +33,4 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 	unsigned int timesteps, unsigned int d_timesteps
 );
 
-#endif /* TRACKING_NATURAL_CUT_H_ */
+#endif /* TRACKING_SUPER_CLUSTER_CUT_H_ */

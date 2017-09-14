@@ -10,7 +10,7 @@
 
 
 template<class Data>
-void printEvaluator(const char* algorithm, const NetworKit::EdgeCutEvaluation<Data>& evaluator) {
+void printEvaluation(const char* algorithm, const NetworKit::EdgeCutEvaluation<Data>& evaluator) {
 	std::cout << algorithm << " ";
 	std::cout << evaluator.getEdges() << " ";
 	std::cout << evaluator.getCuts() << " ";
@@ -104,19 +104,19 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 
 	evaluator.setData(tCheapestMutual.getData());
 	evaluator.evaluate();
-	printEvaluator("CheapestMutual", evaluator);
+	printEvaluation("CheapestMutual", evaluator);
 
 	evaluator.setData(tRecursiveMutual.getData());
 	evaluator.evaluate();
-	printEvaluator("RecursiveMutual", evaluator);
+	printEvaluation("RecursiveMutual", evaluator);
 
 	evaluator.setData(tTopDownIndividualOptimumWeakenedZero.getData());
 	evaluator.evaluate();
-	printEvaluator("TopDownIndividualOptimumWeakenedZero", evaluator);
+	printEvaluation("TopDownIndividualOptimumWeakenedZero", evaluator);
 
 	evaluator.setData(tLeafExpansion.getData());
 	evaluator.evaluate();
-	printEvaluator("LeafExpansion", evaluator);
+	printEvaluation("LeafExpansion", evaluator);
 }
 
 int main(int argc, char const *argv[]) {
