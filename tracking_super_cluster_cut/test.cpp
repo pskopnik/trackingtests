@@ -93,12 +93,14 @@ void run(unsigned int k, double hhc, unsigned int l, unsigned int n, double alph
 		}
 	}
 
+	#ifdef PRINT_HEADER
 	std::cout << "algorithm" << " ";
 	std::cout << "edges" << " ";
 	std::cout << "cuts" << " ";
 	std::cout << "edgeSum" << " ";
 	std::cout << "cutSum" << " ";
 	std::cout << std::endl;
+	#endif /* PRINT_HEADER */
 
 	NetworKit::EdgeCutEvaluation<NetworKit::DCGTimestepData> evaluator;
 
